@@ -179,6 +179,13 @@ body {
   .logo {
     font-size: 1.3rem;
   }
+  .logo-bg {
+    background: #FFD699;
+    border-radius: 3.5rem 3.5rem 3.5rem 4rem;
+    width: 3rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.1rem;
+  }
   .logo i {
     font-size: 1.5rem;
   }
