@@ -391,10 +391,41 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.projeto-item img {
+.projeto-imagem-principal {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+}
+
+.imagem-principal {
   width: 100%;
-  height: 250px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.projeto-item:hover .imagem-principal {
+  transform: scale(1.05);
+}
+
+.projeto-overlay {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+}
+
+.projeto-categoria {
+  background: rgba(132, 62, 0, 0.9);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(5px);
 }
 
 .projeto-info {
@@ -402,15 +433,207 @@ body {
 }
 
 .projeto-info h3 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #8b4513;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   font-weight: 600;
+  line-height: 1.3;
 }
 
 .projeto-info p {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.projeto-fotos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.foto-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.foto-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.foto-item img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.foto-item:hover img {
+  transform: scale(1.1);
+}
+
+.foto-legenda {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsividade para as fotos */
+@media (max-width: 768px) {
+  .projeto-fotos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  
+  .foto-item img {
+    height: 80px;
+  }
+  
+  .projeto-imagem-principal {
+    height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .projeto-fotos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .foto-item img {
+    height: 70px;
+  }
+  
+  .projeto-imagem-principal {
+    height: 200px;
+  }
+  
+  .projeto-categoria {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Modal para ampliar fotos */
+.foto-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.foto-modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.foto-modal-content img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+}
+
+.foto-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.foto-modal-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.foto-modal-legenda {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .foto-modal-content {
+    max-width: 95%;
+  }
+  
+  .foto-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    font-size: 1.5rem;
+  }
+  
+  .foto-modal-legenda {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
 }
 
 /* Contato Section */
@@ -673,6 +896,17 @@ html {
   }
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .servico-card,
 .projeto-item {
   animation: fadeInUp 0.6s ease forwards;
@@ -759,4 +993,14 @@ html {
     padding: 6px 10px;
     right: 105%;
   }
+}
+
+.projeto-fotos img {
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.projeto-fotos img:hover {
+  transform: scale(1.07) translateY(-4px);
+  box-shadow: 0 8px 24px rgba(132, 62, 0, 0.18);
 }

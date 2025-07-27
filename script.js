@@ -31,7 +31,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-
 // === 3. Form submission com validação simples ===
 document.querySelector("form").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -70,4 +69,38 @@ document.querySelectorAll(".servico-card, .projeto-item").forEach((el) => {
   el.style.transform = "translateY(30px)";
   el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
   observer.observe(el);
+});
+
+// === 5. Ampliar fotos dos projetos ===
+document.querySelectorAll('.foto-item img').forEach(img => {
+  img.addEventListener('click', function() {
+    const modal = document.createElement('div');
+    modal.className = 'foto-modal';
+    modal.innerHTML = `
+      <div class="foto-modal-content">
+        <span class="foto-modal-close">&times;</span>
+        <img src="${this.src}" alt="${this.alt}">
+        <div class="foto-modal-legenda">${this.alt}</div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Fechar modal
+    const closeModal = () => {
+      modal.remove();
+      document.body.style.overflow = 'auto';
+    };
+    
+    modal.querySelector('.foto-modal-close').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    
+    // Fechar com ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  });
 });
