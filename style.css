@@ -57,7 +57,8 @@ body {
 
 .logo-bg {
   background: #FFD699;
-  border-radius: 50%;
+  border-radius: 3.5rem 3.5rem 3.5rem 4rem;
+  width: 3.5rem;
   padding-left: 0.6rem;
   padding-bottom: 0.1rem;
   display: flex;
