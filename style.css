@@ -791,6 +791,62 @@ body {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 30px;
+  }
+  
+  .sobre-content {
+    gap: 3rem;
+  }
+  
+  .servicos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .projetos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav li {
+    width: 100%;
+  }
+
+  .nav a {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .nav a:hover {
+    background-color: #FFD699;
+    color: #843E00;
+    border-color: #FFD699;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 214, 153, 0.3);
+  }
+}
+
 @media (max-width: 768px) {
   .nav {
     display: none;
@@ -829,24 +885,51 @@ body {
 
   .hero-content h1 {
     font-size: 2.5rem;
+    line-height: 1.2;
   }
 
   .hero-content p {
     font-size: 1.1rem;
+    margin-bottom: 2rem;
   }
 
   .sobre-content {
     grid-template-columns: 1fr;
     gap: 2rem;
+    text-align: center;
+  }
+
+  .sobre-image {
+    order: -1;
+  }
+
+  .sobre-image img {
+    max-width: 300px;
+    margin: 0 auto;
   }
 
   .experiencia {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .servicos-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .servico-card {
+    padding: 2rem;
   }
 
   .contato-content {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  .contato-form {
+    padding: 2rem;
   }
 
   .footer-content {
@@ -857,6 +940,107 @@ body {
 
   .projetos-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .projeto-info {
+    padding: 1.5rem;
+  }
+
+  .projeto-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .projeto-info p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+  
+  .logo-bg {
+    width: 3rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.1rem;
+  }
+  
+  .logo i {
+    font-size: 1.5rem;
+  }
+  
+  .header {
+    padding: 0.7rem 0;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  .sobre h2 {
+    font-size: 2rem;
+  }
+
+  .sobre p {
+    font-size: 1rem;
+  }
+
+  .experiencia {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .experiencia-item {
+    text-align: center;
+  }
+
+  .servicos h2 {
+    font-size: 2rem;
+  }
+
+  .projetos h2 {
+    font-size: 2rem;
+  }
+
+  .contato h2 {
+    font-size: 2rem;
+  }
+
+  .contato-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .contato-item i {
+    margin-right: 0;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .submit-button {
+    padding: 0.8rem;
+    font-size: 1rem;
   }
 }
 
@@ -866,22 +1050,160 @@ body {
   }
 
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
-  .servicos-grid {
-    grid-template-columns: 1fr;
+  .hero-content p {
+    font-size: 0.95rem;
   }
 
-  .experiencia {
-    flex-direction: column;
-    gap: 1rem;
+  .sobre h2 {
+    font-size: 1.8rem;
+  }
+
+  .servicos h2 {
+    font-size: 1.8rem;
+  }
+
+  .projetos h2 {
+    font-size: 1.8rem;
+  }
+
+  .contato h2 {
+    font-size: 1.8rem;
+  }
+
+  .servico-card {
+    padding: 1.5rem;
+  }
+
+  .servico-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .servico-card p {
+    font-size: 0.9rem;
+  }
+
+  .projeto-info {
+    padding: 1rem;
+  }
+
+  .projeto-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .projeto-info p {
+    font-size: 0.9rem;
+  }
+
+  .contato-form {
+    padding: 1.5rem;
+  }
+
+  .footer {
+    padding: 2rem 0 1rem;
+  }
+
+  .footer-content {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+
+  .cta-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .sobre h2,
+  .servicos h2,
+  .projetos h2,
+  .contato h2 {
+    font-size: 1.6rem;
+  }
+
+  .servico-card {
+    padding: 1rem;
+  }
+
+  .projeto-info {
+    padding: 0.8rem;
+  }
+
+  .contato-form {
+    padding: 1rem;
   }
 }
 
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .whatsapp-button {
+    animation: none;
+  }
+}
+
+/* Melhorias para foco */
+.nav a:focus,
+.cta-button:focus,
+.submit-button:focus,
+.whatsapp-button:focus,
+.foto-item:focus {
+  outline: 2px solid #843E00;
+  outline-offset: 2px;
+}
+
+/* Melhorias para contraste */
+@media (prefers-contrast: high) {
+  .projeto-categoria {
+    background: #843E00;
+    color: white;
+  }
+  
+  .foto-legenda {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  .contato-item i {
+    background: #843E00;
+  }
+}
+
+/* Melhorias para modo escuro do sistema */
+@media (prefers-color-scheme: dark) {
+  .projeto-item {
+    background: #f8f8f8;
+  }
+  
+  .contato-form {
+    background: #f8f8f8;
+  }
 }
 
 /* Animations */
@@ -992,6 +1314,133 @@ html {
     font-size: 0.85rem;
     padding: 6px 10px;
     right: 105%;
+  }
+}
+
+/* Melhorias para dispositivos touch */
+@media (hover: none) and (pointer: coarse) {
+  .nav a:hover {
+    background-color: transparent;
+    transform: none;
+  }
+  
+  .servico-card:hover {
+    transform: none;
+  }
+  
+  .projeto-item:hover {
+    transform: none;
+  }
+  
+  .foto-item:hover {
+    transform: none;
+  }
+  
+  .cta-button:hover {
+    transform: none;
+  }
+  
+  .submit-button:hover {
+    transform: none;
+  }
+  
+  .whatsapp-button:hover {
+    transform: none;
+  }
+  
+  /* Adicionar feedback visual para touch */
+  .nav a:active {
+    background-color: #FFD699;
+    color: #843E00;
+  }
+  
+  .servico-card:active {
+    transform: scale(0.98);
+  }
+  
+  .projeto-item:active {
+    transform: scale(0.98);
+  }
+  
+  .foto-item:active {
+    transform: scale(0.95);
+  }
+  
+  .cta-button:active {
+    transform: scale(0.95);
+  }
+  
+  .submit-button:active {
+    transform: scale(0.95);
+  }
+  
+  .whatsapp-button:active {
+    transform: scale(0.9);
+  }
+}
+
+/* Melhorias para telas de alta densidade */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .logo-bg {
+    box-shadow: 0 1px 4px rgba(255,214,153,0.3);
+  }
+  
+  .servico-icon {
+    box-shadow: 0 2px 8px rgba(132, 62, 0, 0.15);
+  }
+  
+  .projeto-item {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contato-form {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Melhorias para orientação landscape em mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    height: 100vh;
+    min-height: 500px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+  
+  .sobre-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .sobre-image {
+    order: 0;
+  }
+  
+  .sobre-image img {
+    max-width: 200px;
+  }
+  
+  .experiencia {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .servicos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .projetos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .contato-content {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

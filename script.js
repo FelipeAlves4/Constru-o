@@ -104,3 +104,122 @@ document.querySelectorAll('.foto-item img').forEach(img => {
     });
   });
 });
+
+// === 6. Melhorias para dispositivos móveis ===
+
+// Detectar se é dispositivo touch
+const isTouchDevice = () => {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+};
+
+// Melhorar experiência de toque
+if (isTouchDevice()) {
+  // Adicionar delay para evitar toques acidentais
+  let touchStartTime = 0;
+  let touchStartY = 0;
+  
+  document.addEventListener('touchstart', (e) => {
+    touchStartTime = Date.now();
+    touchStartY = e.touches[0].clientY;
+  });
+  
+  document.addEventListener('touchend', (e) => {
+    const touchEndTime = Date.now();
+    const touchEndY = e.changedTouches[0].clientY;
+    const touchDuration = touchEndTime - touchStartTime;
+    const touchDistance = Math.abs(touchEndY - touchStartY);
+    
+    // Se foi um toque rápido e próximo, pode ser um clique acidental
+    if (touchDuration < 200 && touchDistance < 10) {
+      // Adicionar feedback visual
+      const target = e.target;
+      if (target.classList.contains('foto-item') || 
+          target.closest('.foto-item') || 
+          target.classList.contains('projeto-item') ||
+          target.closest('.projeto-item')) {
+        target.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          target.style.transform = '';
+        }, 150);
+      }
+    }
+  });
+}
+
+// === 7. Otimizações de performance ===
+
+// Lazy loading para imagens
+const lazyImages = document.querySelectorAll('img[src]');
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.style.opacity = '1';
+      imageObserver.unobserve(img);
+    }
+  });
+});
+
+lazyImages.forEach(img => {
+  img.style.opacity = '0';
+  img.style.transition = 'opacity 0.3s ease';
+  imageObserver.observe(img);
+});
+
+// === 8. Melhorias de acessibilidade ===
+
+// Navegação por teclado
+document.addEventListener('keydown', (e) => {
+  // Fechar menu mobile com ESC
+  if (e.key === 'Escape' && nav.classList.contains('active')) {
+    nav.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+});
+
+// Melhorar foco para navegação por teclado
+document.querySelectorAll('.nav a, .cta-button, .submit-button, .foto-item').forEach(element => {
+  element.addEventListener('focus', () => {
+    element.style.outline = '2px solid #843E00';
+    element.style.outlineOffset = '2px';
+  });
+  
+  element.addEventListener('blur', () => {
+    element.style.outline = '';
+    element.style.outlineOffset = '';
+  });
+});
+
+// === 9. Detectar orientação do dispositivo ===
+window.addEventListener('orientationchange', () => {
+  // Aguardar a mudança de orientação
+  setTimeout(() => {
+    // Recalcular posições se necessário
+    if (nav.classList.contains('active')) {
+      nav.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  }, 100);
+});
+
+// === 10. Melhorar performance de scroll ===
+let ticking = false;
+
+function updateHeaderOnScroll() {
+  const header = document.querySelector('.header');
+  if (window.scrollY > 100) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(updateHeaderOnScroll);
+    ticking = true;
+  }
+});
