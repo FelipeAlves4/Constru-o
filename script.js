@@ -1,29 +1,16 @@
-// === 1. Mobile Menu Toggle ===
+// Mobile Menu Toggle
 const mobileMenu = document.querySelector(".mobile-menu");
 const nav = document.querySelector(".nav");
 
 mobileMenu.addEventListener("click", () => {
   nav.classList.toggle("active");
   mobileMenu.classList.toggle("active");
-  
-  // Previne scroll do body quando menu está aberto
-  if (nav.classList.contains("active")) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+
+  // Alternar scroll do body
+  document.body.style.overflow = nav.classList.contains("active") ? "hidden" : "auto";
 });
 
-// Fecha o menu ao clicar fora dele
-document.addEventListener("click", (e) => {
-  if (!nav.contains(e.target) && !mobileMenu.contains(e.target) && nav.classList.contains("active")) {
-    nav.classList.remove("active");
-    mobileMenu.classList.remove("active");
-    document.body.style.overflow = "auto";
-  }
-});
-
-// === 2. Smooth scrolling for navigation links ===
+// Smooth scrolling para links de navegação
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
@@ -34,12 +21,16 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         block: "start",
       });
 
-      // Fecha o menu após clique (modo mobile)
-      nav.classList.remove("active");
-      mobileMenu.classList.remove("active");
+      // Fechar o menu após o clique
+      if (nav.classList.contains("active")) {
+        nav.classList.remove("active");
+        mobileMenu.classList.remove("active");
+        document.body.style.overflow = "auto"; // liberar rolagem
+      }
     }
   });
 });
+
 
 // === 3. Form submission com validação simples ===
 document.querySelector("form").addEventListener("submit", function (e) {
