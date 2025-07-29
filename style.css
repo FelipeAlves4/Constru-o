@@ -48,23 +48,58 @@ body {
 .logo {
   display: flex;
   align-items: center;
-  font-size: 2rem;
   font-weight: 800;
   color: #ffffff;
   letter-spacing: 1px;
-  gap: 0.7rem;
+  gap: 0.8rem;
+}
+
+.logo-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.logo-titulo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.logo-nome {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFD699;
+  letter-spacing: 0.8px;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.logo:hover .logo-nome {
+  color: #ffffff;
 }
 
 .logo-bg {
   background: #FFD699;
-  border-radius: 3.5rem 3.5rem 3.5rem 4rem;
+  border-radius: 50%;
   width: 3.5rem;
-  padding-left: 0.6rem;
-  padding-bottom: 0.1rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(255,214,153,0.18);
+  overflow: hidden;
+}
+
+.logo-bg img {
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: contain;
+  filter: brightness(0.8) contrast(1.2);
 }
 
 .logo i {
@@ -962,17 +997,25 @@ body {
   }
 
   .logo {
-    font-size: 1.3rem;
+    gap: 0.6rem;
+  }
+  
+  .logo-titulo {
+    font-size: 1.2rem;
+  }
+  
+  .logo-nome {
+    font-size: 0.9rem;
   }
   
   .logo-bg {
     width: 3rem;
-    padding-left: 0.5rem;
-    padding-bottom: 0.1rem;
+    height: 3rem;
   }
   
-  .logo i {
-    font-size: 1.5rem;
+  .logo-bg img {
+    width: 1.8rem;
+    height: 1.8rem;
   }
   
   .header {
@@ -1049,6 +1092,28 @@ body {
     padding: 0 15px;
   }
 
+  .logo {
+    gap: 0.5rem;
+  }
+  
+  .logo-titulo {
+    font-size: 1.1rem;
+  }
+  
+  .logo-nome {
+    font-size: 0.8rem;
+  }
+  
+  .logo-bg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .logo-bg img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
   .hero-content h1 {
     font-size: 1.8rem;
   }
@@ -1113,6 +1178,28 @@ body {
 @media (max-width: 360px) {
   .container {
     padding: 0 10px;
+  }
+
+  .logo {
+    gap: 0.4rem;
+  }
+  
+  .logo-titulo {
+    font-size: 1rem;
+  }
+  
+  .logo-nome {
+    font-size: 0.7rem;
+  }
+  
+  .logo-bg {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  
+  .logo-bg img {
+    width: 1.3rem;
+    height: 1.3rem;
   }
 
   .hero-content h1 {
