@@ -748,6 +748,17 @@ body {
 .form-group textarea:focus {
   outline: none;
   border-color: #d2691e;
+  box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.1);
+}
+
+.form-group input:invalid,
+.form-group textarea:invalid {
+  border-color: #e74c3c;
+}
+
+.form-group input:valid,
+.form-group textarea:valid {
+  border-color: #27ae60;
 }
 
 .submit-button {
@@ -766,6 +777,17 @@ body {
 .submit-button:hover {
   background: #b8860b;
   transform: translateY(-2px);
+}
+
+.submit-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-button:disabled:hover {
+  background: #ccc;
+  transform: none;
 }
 
 /* Footer */

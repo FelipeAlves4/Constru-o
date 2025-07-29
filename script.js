@@ -31,23 +31,37 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-// === 3. Form submission com validação simples ===
-document.querySelector("form").addEventListener("submit", function (e) {
-  e.preventDefault();
+// === 3. Form submission com FormSubmit ===
+const form = document.querySelector("form");
 
-  const name = this.querySelector('input[type="text"]').value.trim();
-  const email = this.querySelector('input[type="email"]').value.trim();
-  const phone = this.querySelector('input[type="tel"]').value.trim();
-  const message = this.querySelector("textarea").value.trim();
+form.addEventListener("submit", function (e) {
+  const name = this.querySelector('input[name="name"]').value.trim();
+  const email = this.querySelector('input[name="email"]').value.trim();
+  const phone = this.querySelector('input[name="phone"]').value.trim();
+  const message = this.querySelector("textarea[name='message']").value.trim();
 
   if (!name || !email || !phone || !message) {
+    e.preventDefault();
     alert("Por favor, preencha todos os campos.");
     return;
   }
 
-  alert("Mensagem enviada com sucesso! Entraremos em contato em breve.");
-  this.reset();
+  // Adicionar feedback visual durante o envio
+  const submitButton = this.querySelector('.submit-button');
+  const originalText = submitButton.textContent;
+  
+  submitButton.textContent = 'Enviando...';
+  submitButton.disabled = true;
+  submitButton.style.opacity = '0.7';
+  
+  // Resetar o botão após um tempo (caso o FormSubmit não redirecione)
+  setTimeout(() => {
+    submitButton.textContent = originalText;
+    submitButton.disabled = false;
+    submitButton.style.opacity = '1';
+  }, 5000);
 });
+
 
 // === 4. Animação ao rolar com IntersectionObserver ===
 const observerOptions = {
