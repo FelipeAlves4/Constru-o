@@ -237,3 +237,190 @@ window.addEventListener('scroll', () => {
     ticking = true;
   }
 });
+
+// === 11. Carrossel de Projetos ===
+class Carousel {
+  constructor() {
+    this.track = document.getElementById('carouselTrack');
+    this.prevBtn = document.getElementById('prevBtn');
+    this.nextBtn = document.getElementById('nextBtn');
+    this.indicatorsContainer = document.getElementById('carouselIndicators');
+    this.items = document.querySelectorAll('.carousel-track .projeto-item');
+    this.currentIndex = 0;
+    this.totalItems = this.items.length;
+    this.isTransitioning = false;
+    this.autoPlayInterval = null;
+    this.autoPlayDelay = 5000; // 5 segundos
+    
+    this.init();
+  }
+  
+  init() {
+    if (this.totalItems === 0) return;
+    
+    this.createIndicators();
+    this.bindEvents();
+    this.updateCarousel();
+    this.startAutoPlay();
+  }
+  
+  createIndicators() {
+    this.indicatorsContainer.innerHTML = '';
+    
+    for (let i = 0; i < this.totalItems; i++) {
+      const indicator = document.createElement('div');
+      indicator.className = 'carousel-indicator';
+      if (i === 0) indicator.classList.add('active');
+      
+      indicator.addEventListener('click', () => {
+        if (!this.isTransitioning) {
+          this.goToSlide(i);
+        }
+      });
+      
+      this.indicatorsContainer.appendChild(indicator);
+    }
+  }
+  
+  bindEvents() {
+    this.prevBtn.addEventListener('click', () => {
+      if (!this.isTransitioning) {
+        this.prevSlide();
+      }
+    });
+    
+    this.nextBtn.addEventListener('click', () => {
+      if (!this.isTransitioning) {
+        this.nextSlide();
+      }
+    });
+    
+    // Navegação por teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (!this.isTransitioning) {
+          this.prevSlide();
+        }
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (!this.isTransitioning) {
+          this.nextSlide();
+        }
+      }
+    });
+    
+    // Pausar autoplay no hover
+    this.track.addEventListener('mouseenter', () => {
+      this.stopAutoPlay();
+    });
+    
+    this.track.addEventListener('mouseleave', () => {
+      this.startAutoPlay();
+    });
+    
+    // Touch/swipe support
+    this.addTouchSupport();
+  }
+  
+  addTouchSupport() {
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
+    let isDragging = false;
+    
+    this.track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = true;
+      this.stopAutoPlay();
+    });
+    
+    this.track.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+    });
+    
+    this.track.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      
+      endX = e.changedTouches[0].clientX;
+      endY = e.changedTouches[0].clientY;
+      
+      const deltaX = startX - endX;
+      const deltaY = startY - endY;
+      
+      // Verificar se é um swipe horizontal (não vertical)
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0 && !this.isTransitioning) {
+          this.nextSlide();
+        } else if (deltaX < 0 && !this.isTransitioning) {
+          this.prevSlide();
+        }
+      }
+      
+      isDragging = false;
+      this.startAutoPlay();
+    });
+  }
+  
+  nextSlide() {
+    this.currentIndex = (this.currentIndex + 1) % this.totalItems;
+    this.updateCarousel();
+  }
+  
+  prevSlide() {
+    this.currentIndex = (this.currentIndex - 1 + this.totalItems) % this.totalItems;
+    this.updateCarousel();
+  }
+  
+  goToSlide(index) {
+    this.currentIndex = index;
+    this.updateCarousel();
+  }
+  
+  updateCarousel() {
+    if (this.isTransitioning) return;
+    
+    this.isTransitioning = true;
+    
+    // Atualizar posição do track
+    const translateX = -this.currentIndex * 100;
+    this.track.style.transform = `translateX(${translateX}%)`;
+    
+    // Atualizar indicadores
+    const indicators = this.indicatorsContainer.querySelectorAll('.carousel-indicator');
+    indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === this.currentIndex);
+    });
+    
+    // Atualizar botões
+    this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
+    this.nextBtn.style.opacity = this.currentIndex === this.totalItems - 1 ? '0.5' : '1';
+    
+    // Resetar transição após animação
+    setTimeout(() => {
+      this.isTransitioning = false;
+    }, 500);
+  }
+  
+  startAutoPlay() {
+    this.stopAutoPlay();
+    this.autoPlayInterval = setInterval(() => {
+      this.nextSlide();
+    }, this.autoPlayDelay);
+  }
+  
+  stopAutoPlay() {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
+    }
+  }
+}
+
+// Inicializar carrossel quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', () => {
+  new Carousel();
+});
