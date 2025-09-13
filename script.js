@@ -424,3 +424,55 @@ class Carousel {
 document.addEventListener('DOMContentLoaded', () => {
   new Carousel();
 });
+
+// === 12. Hero Section Scroll Indicator ===
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollIndicator = document.querySelector('.hero-scroll');
+  
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', () => {
+      const sobreSection = document.querySelector('#sobre');
+      if (sobreSection) {
+        sobreSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  }
+  
+  // Animar números das estatísticas
+  const animateNumbers = () => {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    statNumbers.forEach(stat => {
+      const target = parseInt(stat.textContent.replace(/\D/g, ''));
+      const suffix = stat.textContent.replace(/\d/g, '');
+      let current = 0;
+      const increment = target / 50;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        stat.textContent = Math.floor(current) + suffix;
+      }, 30);
+    });
+  };
+  
+  // Observar quando a hero section está visível
+  const heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(animateNumbers, 1000);
+        heroObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  const heroSection = document.querySelector('.hero');
+  if (heroSection) {
+    heroObserver.observe(heroSection);
+  }
+});
