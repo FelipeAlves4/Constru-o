@@ -267,181 +267,245 @@
     <!-- Projetos Section -->
     <section id="projetos" class="projetos">
         <div class="container">
-            <h2>Galeria de Projetos</h2>
-            <div class="carousel-container">
-                <div class="carousel-wrapper">
-                    <div class="carousel-track" id="carouselTrack">
-                <!-- Projeto Jacuse -->
-                <div class="projeto-item">
-                    <div class="projeto-imagem-principal">
-                        <img src="serviços/depois_jacuse.jpg" alt="Jacuse Pronto" class="imagem-principal">
-                        <div class="projeto-overlay">
-                            <div class="projeto-categoria">Construção</div>
+            <div class="projetos-header">
+                <span class="section-kicker">Portfólio</span>
+                <h2>Galeria de Projetos</h2>
+                <p>Trabalhos recentes com registros de antes, durante e depois para mostrar o cuidado em cada etapa.</p>
+            </div>
+
+            <div class="projetos-toolbar" aria-label="Filtrar projetos">
+                <button class="projeto-filter active" type="button" data-filter="todos" aria-pressed="true">
+                    <i class="fas fa-border-all" aria-hidden="true"></i>
+                    <span>Todos</span>
+                </button>
+                <button class="projeto-filter" type="button" data-filter="reforma" aria-pressed="false">
+                    <i class="fas fa-hammer" aria-hidden="true"></i>
+                    <span>Reformas</span>
+                </button>
+                <button class="projeto-filter" type="button" data-filter="construcao" aria-pressed="false">
+                    <i class="fas fa-building" aria-hidden="true"></i>
+                    <span>Construção</span>
+                </button>
+                <button class="projeto-filter" type="button" data-filter="eletrica" aria-pressed="false">
+                    <i class="fas fa-bolt" aria-hidden="true"></i>
+                    <span>Elétrica</span>
+                </button>
+            </div>
+
+            <div class="projetos-grid" id="projetosGrid">
+                <article class="projeto-card" data-category="construcao">
+                    <button class="projeto-main-image galeria-trigger" type="button" data-project="Construção de jacuzzi"
+                        data-src="serviços/depois_jacuse.jpg" data-caption="Jacuzzi finalizada">
+                        <img src="serviços/depois_jacuse.jpg" alt="Jacuzzi finalizada" loading="lazy">
+                        <span class="projeto-badge">Construção</span>
+                        <span class="projeto-photo-count"><i class="fas fa-camera" aria-hidden="true"></i> 2 fotos</span>
+                    </button>
+                    <div class="projeto-body">
+                        <div class="projeto-meta">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>Marília/SP</span>
+                        </div>
+                        <h3>Construção de jacuzzi</h3>
+                        <p>Área de lazer executada com base reforçada, acabamento limpo e atenção ao encaixe dos detalhes.</p>
+                        <div class="projeto-tags" aria-label="Características do projeto">
+                            <span>Área externa</span>
+                            <span>Acabamento</span>
+                        </div>
+                        <div class="projeto-thumbs" aria-label="Fotos da construção de jacuzzi">
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Construção de jacuzzi"
+                                data-src="serviços/antes_jacuse.jpg" data-caption="Antes da execução">
+                                <img src="serviços/antes_jacuse.jpg" alt="Antes da construção da jacuzzi" loading="lazy">
+                                <span>Antes</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Construção de jacuzzi"
+                                data-src="serviços/depois_jacuse.jpg" data-caption="Resultado final">
+                                <img src="serviços/depois_jacuse.jpg" alt="Depois da construção da jacuzzi" loading="lazy">
+                                <span>Depois</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="projeto-info">
-                        <h3>Construção de Jacuse</h3>
-                        <p>Marilia/SP - Construção de Jacuse com acabamentos modernos</p>
-                        <div class="projeto-fotos-grid">
-                            <div class="foto-item">
-                                <img src="serviços/antes_jacuse.jpg" alt="Antes Jacuse">
-                                <span class="foto-legenda">Antes</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/depois_jacuse.jpg" alt="Depois Jacuse">
-                                <span class="foto-legenda">Depois</span>
-                            </div>
+                </article>
+
+                <article class="projeto-card" data-category="reforma">
+                    <button class="projeto-main-image galeria-trigger" type="button" data-project="Reforma residencial completa"
+                        data-src="serviços/Imagem_casa_pronta.jpg" data-caption="Fachada reformada">
+                        <img src="serviços/Imagem_casa_pronta.jpg" alt="Casa reformada" loading="lazy">
+                        <span class="projeto-badge">Reforma completa</span>
+                        <span class="projeto-photo-count"><i class="fas fa-camera" aria-hidden="true"></i> 3 fotos</span>
+                    </button>
+                    <div class="projeto-body">
+                        <div class="projeto-meta">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>Marília/SP</span>
+                        </div>
+                        <h3>Reforma residencial completa</h3>
+                        <p>Reforma de casa com melhorias no telhado, corredor, fachada e portão para renovar o imóvel.</p>
+                        <div class="projeto-tags" aria-label="Características do projeto">
+                            <span>Telhado</span>
+                            <span>Fachada</span>
+                            <span>Portão</span>
+                        </div>
+                        <div class="projeto-thumbs" aria-label="Fotos da reforma residencial">
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma residencial completa"
+                                data-src="serviços/antes_casa.jpg" data-caption="Antes da reforma">
+                                <img src="serviços/antes_casa.jpg" alt="Casa antes da reforma" loading="lazy">
+                                <span>Antes</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma residencial completa"
+                                data-src="serviços/Imagem_casa_pronta.jpg" data-caption="Casa pronta">
+                                <img src="serviços/Imagem_casa_pronta.jpg" alt="Casa depois da reforma" loading="lazy">
+                                <span>Depois</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma residencial completa"
+                                data-src="serviços/portão.jpg" data-caption="Portão instalado">
+                                <img src="serviços/portão.jpg" alt="Portão instalado na casa" loading="lazy">
+                                <span>Portão</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Projeto Casa -->
-                <div class="projeto-item">
-                    <div class="projeto-imagem-principal">
-                        <img src="serviços/Imagem_casa_pronta.jpg" alt="Casa Reformada" class="imagem-principal">
-                        <div class="projeto-overlay">
-                            <div class="projeto-categoria">Reforma Completa</div>
+                </article>
+
+                <article class="projeto-card" data-category="reforma">
+                    <button class="projeto-main-image galeria-trigger" type="button" data-project="Instalação de portão de aço"
+                        data-src="serviços/depois_portao_.jpg" data-caption="Portão de aço finalizado">
+                        <img src="serviços/depois_portao_.jpg" alt="Portão de aço finalizado" loading="lazy">
+                        <span class="projeto-badge">Reforma</span>
+                        <span class="projeto-photo-count"><i class="fas fa-camera" aria-hidden="true"></i> 3 fotos</span>
+                    </button>
+                    <div class="projeto-body">
+                        <div class="projeto-meta">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>Marília/SP</span>
+                        </div>
+                        <h3>Instalação de portão de aço</h3>
+                        <p>Troca e instalação de portão com estrutura resistente, alinhamento preciso e acabamento reforçado.</p>
+                        <div class="projeto-tags" aria-label="Características do projeto">
+                            <span>Serralheria</span>
+                            <span>Segurança</span>
+                        </div>
+                        <div class="projeto-thumbs" aria-label="Fotos da instalação do portão">
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Instalação de portão de aço"
+                                data-src="serviços/antes_port_.jpg" data-caption="Antes da instalação">
+                                <img src="serviços/antes_port_.jpg" alt="Antes da instalação do portão" loading="lazy">
+                                <span>Antes</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Instalação de portão de aço"
+                                data-src="serviços/antes_portao.jpg" data-caption="Durante a instalação">
+                                <img src="serviços/antes_portao.jpg" alt="Durante a instalação do portão" loading="lazy">
+                                <span>Durante</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Instalação de portão de aço"
+                                data-src="serviços/depois_portao_.jpg" data-caption="Resultado final">
+                                <img src="serviços/depois_portao_.jpg" alt="Depois da instalação do portão" loading="lazy">
+                                <span>Depois</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="projeto-info">
-                        <h3>Reforma de Casa, telhado, corredor e portão</h3>
-                        <p>Marilia/SP - Reforma completa de casa com telhado novo, corredor e portão</p>
-                        <div class="projeto-fotos-grid">
-                            <div class="foto-item">
-                                <img src="serviços/antes_casa.jpg" alt="Antes Casa">
-                                <span class="foto-legenda">Antes</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/Imagem_casa_pronta.jpg" alt="Casa Pronta">
-                                <span class="foto-legenda">Depois</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/portão.jpg" alt="Portão">
-                                <span class="foto-legenda">Portão</span>
-                            </div>
+                </article>
+
+                <article class="projeto-card" data-category="reforma">
+                    <button class="projeto-main-image galeria-trigger" type="button" data-project="Reforma de corredor"
+                        data-src="serviços/Imagem.jpg" data-caption="Corredor reformado">
+                        <img src="serviços/Imagem.jpg" alt="Corredor reformado" loading="lazy">
+                        <span class="projeto-badge">Reforma</span>
+                        <span class="projeto-photo-count"><i class="fas fa-camera" aria-hidden="true"></i> 2 fotos</span>
+                    </button>
+                    <div class="projeto-body">
+                        <div class="projeto-meta">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>Marília/SP</span>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Projeto Portão de aço -->
-                <div class="projeto-item">
-                    <div class="projeto-imagem-principal">
-                        <img src="serviços/depois_portao_.jpg" alt="Portão de Aço" class="imagem-principal">
-                        <div class="projeto-overlay">
-                            <div class="projeto-categoria">Reforma</div>
-                        </div>
-                    </div>
-                    <div class="projeto-info">
-                        <h3>Portão de aço</h3>
-                        <p>Marilia/SP - Instalação de portão de aço</p>
-                        <div class="projeto-fotos-grid">
-                            <div class="foto-item">
-                                <img src="serviços/antes_port_.jpg" alt="Antes Portão">
-                                <span class="foto-legenda">Antes</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/antes_portao.jpg" alt="Durante Portão">
-                                <span class="foto-legenda">Durante</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/depois_portao_.jpg" alt="Depois Portão">
-                                <span class="foto-legenda">Depois</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Projeto Corredor -->
-                <div class="projeto-item">
-                    <div class="projeto-imagem-principal">
-                        <img src="serviços/Imagem.jpg" alt="Corredor Reformado" class="imagem-principal">
-                        <div class="projeto-overlay">
-                            <div class="projeto-categoria">Reforma</div>
-                        </div>
-                    </div>
-                    <div class="projeto-info">
                         <h3>Reforma de corredor</h3>
-                        <p>Marilia/SP - Reforma de corredor</p>
-                        <div class="projeto-fotos-grid">
-                            <div class="foto-item">
-                                <img src="serviços/Imagem_.jpg" alt="Antes Corredor">
-                                <span class="foto-legenda">Antes</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/Imagem.jpg" alt="Depois Corredor">
-                                <span class="foto-legenda">Depois</span>
-                            </div>
+                        <p>Renovação de corredor com acabamento uniforme, pintura limpa e melhor aproveitamento visual do espaço.</p>
+                        <div class="projeto-tags" aria-label="Características do projeto">
+                            <span>Pintura</span>
+                            <span>Acabamento</span>
+                        </div>
+                        <div class="projeto-thumbs" aria-label="Fotos da reforma do corredor">
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma de corredor"
+                                data-src="serviços/Imagem_.jpg" data-caption="Antes da reforma">
+                                <img src="serviços/Imagem_.jpg" alt="Corredor antes da reforma" loading="lazy">
+                                <span>Antes</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma de corredor"
+                                data-src="serviços/Imagem.jpg" data-caption="Depois da reforma">
+                                <img src="serviços/Imagem.jpg" alt="Corredor depois da reforma" loading="lazy">
+                                <span>Depois</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Projeto Telhado -->
-                <div class="projeto-item">
-                    <div class="projeto-imagem-principal">
-                        <img src="serviços/telhado_pronto.jpg" alt="Telhado Reformado" class="imagem-principal">
-                        <div class="projeto-overlay">
-                            <div class="projeto-categoria">Reforma</div>
+                </article>
+
+                <article class="projeto-card" data-category="reforma">
+                    <button class="projeto-main-image galeria-trigger" type="button" data-project="Reforma de telhado"
+                        data-src="serviços/telhado_pronto.jpg" data-caption="Telhado finalizado">
+                        <img src="serviços/telhado_pronto.jpg" alt="Telhado reformado" loading="lazy">
+                        <span class="projeto-badge">Reforma</span>
+                        <span class="projeto-photo-count"><i class="fas fa-camera" aria-hidden="true"></i> 3 fotos</span>
+                    </button>
+                    <div class="projeto-body">
+                        <div class="projeto-meta">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>Marília/SP</span>
                         </div>
-                    </div>
-                    <div class="projeto-info">
                         <h3>Reforma de telhado</h3>
-                        <p>Marilia/SP - Reforma de telhado com telas de alumínio</p>
-                        <div class="projeto-fotos-grid">
-                            <div class="foto-item">
-                                <img src="serviços/telhado_antes_.jpg" alt="Antes Telhado">
-                                <span class="foto-legenda">Antes</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/telhado_meio_.jpg" alt="Meio Telhado">
-                                <span class="foto-legenda">Durante</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/telhado_pronto.jpg" alt="Depois Telhado">
-                                <span class="foto-legenda">Depois</span>
-                            </div>
+                        <p>Revisão do telhado com troca de pontos danificados, telas de alumínio e acabamento mais seguro.</p>
+                        <div class="projeto-tags" aria-label="Características do projeto">
+                            <span>Telhado</span>
+                            <span>Manutenção</span>
+                        </div>
+                        <div class="projeto-thumbs" aria-label="Fotos da reforma do telhado">
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma de telhado"
+                                data-src="serviços/telhado_antes_.jpg" data-caption="Antes da reforma">
+                                <img src="serviços/telhado_antes_.jpg" alt="Telhado antes da reforma" loading="lazy">
+                                <span>Antes</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma de telhado"
+                                data-src="serviços/telhado_meio_.jpg" data-caption="Durante a reforma">
+                                <img src="serviços/telhado_meio_.jpg" alt="Telhado durante a reforma" loading="lazy">
+                                <span>Durante</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Reforma de telhado"
+                                data-src="serviços/telhado_pronto.jpg" data-caption="Resultado final">
+                                <img src="serviços/telhado_pronto.jpg" alt="Telhado depois da reforma" loading="lazy">
+                                <span>Depois</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                <!-- Projeto Fiação -->
-                <div class="projeto-item">
-                    <div class="projeto-imagem-principal">
-                        <img src="serviços/fiação_arrumada.jpg" alt="fiação arrumada" class="imagem-principal">
-                        <div class="projeto-overlay">
-                            <div class="projeto-categoria">Reforma</div>
+                </article>
+
+                <article class="projeto-card" data-category="eletrica">
+                    <button class="projeto-main-image galeria-trigger" type="button" data-project="Fiação instalada e organizada"
+                        data-src="serviços/fiação_arrumada.jpg" data-caption="Fiação organizada">
+                        <img src="serviços/fiação_arrumada.jpg" alt="Fiação instalada e organizada" loading="lazy">
+                        <span class="projeto-badge">Elétrica</span>
+                        <span class="projeto-photo-count"><i class="fas fa-camera" aria-hidden="true"></i> 2 fotos</span>
+                    </button>
+                    <div class="projeto-body">
+                        <div class="projeto-meta">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>Marília/SP</span>
                         </div>
-                    </div>
-                    <div class="projeto-info">
                         <h3>Fiação instalada e organizada</h3>
-                        <p>Marilia/SP - Toda a fiação instalada e organizada e identificada por cores</p>
-                        <div class="projeto-fotos-grid">
-                            <div class="foto-item">
-                                <img src="serviços/fiação_bagu.jpg" alt="Antes Fiação">
-                                <span class="foto-legenda">Antes</span>
-                            </div>
-                            <div class="foto-item">
-                                <img src="serviços/fiação_arrumada.jpg" alt="Depois Fiação">
-                                <span class="foto-legenda">Depois</span>
-                            </div>
+                        <p>Organização de fiação com identificação por cores, distribuição mais limpa e manutenção facilitada.</p>
+                        <div class="projeto-tags" aria-label="Características do projeto">
+                            <span>Instalação</span>
+                            <span>Organização</span>
+                        </div>
+                        <div class="projeto-thumbs" aria-label="Fotos da instalação elétrica">
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Fiação instalada e organizada"
+                                data-src="serviços/fiação_bagu.jpg" data-caption="Antes da organização">
+                                <img src="serviços/fiação_bagu.jpg" alt="Fiação antes da organização" loading="lazy">
+                                <span>Antes</span>
+                            </button>
+                            <button class="projeto-thumb galeria-trigger" type="button" data-project="Fiação instalada e organizada"
+                                data-src="serviços/fiação_arrumada.jpg" data-caption="Depois da organização">
+                                <img src="serviços/fiação_arrumada.jpg" alt="Fiação depois da organização" loading="lazy">
+                                <span>Depois</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                    </div>
-                </div>
-                
-                <!-- Carousel Navigation -->
-                <div class="carousel-nav">
-                    <button class="carousel-btn prev-btn" id="prevBtn" aria-label="Projeto anterior">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="carousel-btn next-btn" id="nextBtn" aria-label="Próximo projeto">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                
-                <!-- Carousel Indicators -->
-                <div class="carousel-indicators" id="carouselIndicators">
-                    <!-- Indicators will be generated by JavaScript -->
-                </div>
+                </article>
             </div>
         </div>
     </section>

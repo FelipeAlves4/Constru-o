@@ -1,478 +1,383 @@
-// Mobile Menu Toggle
 const mobileMenu = document.querySelector(".mobile-menu");
 const nav = document.querySelector(".nav");
 
-mobileMenu.addEventListener("click", () => {
-  nav.classList.toggle("active");
-  mobileMenu.classList.toggle("active");
+if (mobileMenu && nav) {
+  mobileMenu.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    mobileMenu.classList.toggle("active");
+    document.body.style.overflow = nav.classList.contains("active") ? "hidden" : "auto";
+  });
+}
 
-  // Alternar scroll do body
-  document.body.style.overflow = nav.classList.contains("active") ? "hidden" : "auto";
-});
-
-// Smooth scrolling para links de navegação
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
-    e.preventDefault();
     const target = document.querySelector(this.getAttribute("href"));
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
 
-      // Fechar o menu após o clique
-      if (nav.classList.contains("active")) {
-        nav.classList.remove("active");
-        mobileMenu.classList.remove("active");
-        document.body.style.overflow = "auto"; // liberar rolagem
-      }
+    if (!target) return;
+
+    e.preventDefault();
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    if (nav && mobileMenu && nav.classList.contains("active")) {
+      nav.classList.remove("active");
+      mobileMenu.classList.remove("active");
+      document.body.style.overflow = "auto";
     }
   });
 });
 
-// === 3. Form submission com FormSubmit ===
 const form = document.querySelector("form");
 
-form.addEventListener("submit", function (e) {
-  const name = this.querySelector('input[name="name"]').value.trim();
-  const email = this.querySelector('input[name="email"]').value.trim();
-  const phone = this.querySelector('input[name="phone"]').value.trim();
-  const message = this.querySelector("textarea[name='message']").value.trim();
+if (form) {
+  form.addEventListener("submit", function (e) {
+    const name = this.querySelector('input[name="name"]').value.trim();
+    const email = this.querySelector('input[name="email"]').value.trim();
+    const phone = this.querySelector('input[name="phone"]').value.trim();
+    const message = this.querySelector("textarea[name='message']").value.trim();
 
-  if (!name || !email || !phone || !message) {
-    e.preventDefault();
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
+    if (!name || !email || !phone || !message) {
+      e.preventDefault();
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
 
-  // Adicionar feedback visual durante o envio
-  const submitButton = this.querySelector('.submit-button');
-  const originalText = submitButton.textContent;
-  
-  submitButton.textContent = 'Enviando...';
-  submitButton.disabled = true;
-  submitButton.style.opacity = '0.7';
-  
-  // Resetar o botão após um tempo (caso o FormSubmit não redirecione)
-  setTimeout(() => {
-    submitButton.textContent = originalText;
-    submitButton.disabled = false;
-    submitButton.style.opacity = '1';
-  }, 5000);
-});
+    const submitButton = this.querySelector(".submit-button");
+    const originalText = submitButton.textContent;
 
+    submitButton.textContent = "Enviando...";
+    submitButton.disabled = true;
+    submitButton.style.opacity = "0.7";
 
-// === 4. Animação ao rolar com IntersectionObserver ===
+    setTimeout(() => {
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+      submitButton.style.opacity = "1";
+    }, 5000);
+  });
+}
+
 const observerOptions = {
   threshold: 0.1,
   rootMargin: "0px 0px -50px 0px",
 };
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = "1";
-      entry.target.style.transform = "translateY(0)";
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+        entry.target.addEventListener("transitionend", () => {
+          entry.target.style.transform = "";
+        }, { once: true });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll(".servico-card, .projeto-card").forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(30px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    observer.observe(el);
+  });
+}
+
+function initProjectGallery() {
+  const filterButtons = document.querySelectorAll(".projeto-filter");
+  const projectCards = document.querySelectorAll(".projeto-card");
+  const galleryTriggers = document.querySelectorAll(".galeria-trigger");
+
+  if (!projectCards.length) return;
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedFilter = button.dataset.filter;
+
+      filterButtons.forEach((filterButton) => {
+        const isActive = filterButton === button;
+        filterButton.classList.toggle("active", isActive);
+        filterButton.setAttribute("aria-pressed", String(isActive));
+      });
+
+      projectCards.forEach((card) => {
+        const shouldShow = selectedFilter === "todos" || card.dataset.category === selectedFilter;
+        card.classList.toggle("is-hidden", !shouldShow);
+      });
+    });
+  });
+
+  let modal = null;
+  let modalImage = null;
+  let modalProject = null;
+  let modalCaption = null;
+  let currentItems = [];
+  let currentIndex = 0;
+  let previousFocus = null;
+  let previousBodyOverflow = "";
+
+  const getProjectItems = (projectName) => {
+    const thumbs = Array.from(document.querySelectorAll(".projeto-thumb.galeria-trigger"));
+    return thumbs.filter((item) => item.dataset.project === projectName);
+  };
+
+  const renderModalImage = () => {
+    const item = currentItems[currentIndex];
+
+    if (!item || !modalImage || !modalProject || !modalCaption) return;
+
+    modalImage.src = item.dataset.src;
+    modalImage.alt = item.querySelector("img")?.alt || item.dataset.caption || item.dataset.project;
+    modalProject.textContent = item.dataset.project;
+    modalCaption.textContent = item.dataset.caption;
+  };
+
+  const closeGallery = () => {
+    if (!modal) return;
+
+    modal.remove();
+    modal = null;
+    document.body.style.overflow = previousBodyOverflow;
+    document.removeEventListener("keydown", handleGalleryKeydown);
+
+    if (previousFocus && typeof previousFocus.focus === "function") {
+      previousFocus.focus();
     }
-  });
-}, observerOptions);
+  };
 
-document.querySelectorAll(".servico-card, .projeto-item").forEach((el) => {
-  el.style.opacity = "0";
-  el.style.transform = "translateY(30px)";
-  el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-  observer.observe(el);
-});
+  const showPreviousImage = () => {
+    currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+    renderModalImage();
+  };
 
-// === 5. Ampliar fotos dos projetos ===
-document.querySelectorAll('.foto-item img').forEach(img => {
-  img.addEventListener('click', function() {
-    const modal = document.createElement('div');
-    modal.className = 'foto-modal';
+  const showNextImage = () => {
+    currentIndex = (currentIndex + 1) % currentItems.length;
+    renderModalImage();
+  };
+
+  function handleGalleryKeydown(e) {
+    if (e.key === "Escape") {
+      closeGallery();
+    }
+
+    if (e.key === "ArrowLeft") {
+      showPreviousImage();
+    }
+
+    if (e.key === "ArrowRight") {
+      showNextImage();
+    }
+  }
+
+  const openGallery = (trigger) => {
+    const projectItems = getProjectItems(trigger.dataset.project);
+    currentItems = projectItems.length ? projectItems : [trigger];
+    currentIndex = currentItems.findIndex((item) => item.dataset.src === trigger.dataset.src);
+
+    if (currentIndex < 0) {
+      currentIndex = 0;
+    }
+
+    previousFocus = document.activeElement;
+    previousBodyOverflow = document.body.style.overflow;
+
+    modal = document.createElement("div");
+    modal.className = "galeria-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Foto do projeto");
     modal.innerHTML = `
-      <div class="foto-modal-content">
-        <span class="foto-modal-close">&times;</span>
-        <img src="${this.src}" alt="${this.alt}">
-        <div class="foto-modal-legenda">${this.alt}</div>
-      </div>
+      <button class="galeria-modal-close" type="button" aria-label="Fechar galeria">
+        <i class="fas fa-times" aria-hidden="true"></i>
+      </button>
+      <button class="galeria-modal-nav galeria-prev" type="button" aria-label="Foto anterior">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <figure class="galeria-modal-content">
+        <img src="" alt="">
+        <figcaption class="galeria-modal-caption">
+          <strong></strong>
+          <span></span>
+        </figcaption>
+      </figure>
+      <button class="galeria-modal-nav galeria-next" type="button" aria-label="Próxima foto">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </button>
     `;
-    
+
     document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-    
-    // Fechar modal
-    const closeModal = () => {
-      modal.remove();
-      document.body.style.overflow = 'auto';
-    };
-    
-    modal.querySelector('.foto-modal-close').addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
+    document.body.style.overflow = "hidden";
+
+    modalImage = modal.querySelector(".galeria-modal-content img");
+    modalProject = modal.querySelector(".galeria-modal-caption strong");
+    modalCaption = modal.querySelector(".galeria-modal-caption span");
+
+    modal.querySelector(".galeria-modal-close").addEventListener("click", closeGallery);
+    modal.querySelector(".galeria-prev").addEventListener("click", showPreviousImage);
+    modal.querySelector(".galeria-next").addEventListener("click", showNextImage);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeGallery();
     });
-    
-    // Fechar com ESC
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
+
+    document.addEventListener("keydown", handleGalleryKeydown);
+    renderModalImage();
+    modal.querySelector(".galeria-modal-close").focus();
+  };
+
+  galleryTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => openGallery(trigger));
   });
-});
+}
 
-// === 6. Melhorias para dispositivos móveis ===
+initProjectGallery();
 
-// Detectar se é dispositivo touch
 const isTouchDevice = () => {
-  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 };
 
-// Melhorar experiência de toque
 if (isTouchDevice()) {
-  // Adicionar delay para evitar toques acidentais
   let touchStartTime = 0;
   let touchStartY = 0;
-  
-  document.addEventListener('touchstart', (e) => {
+
+  document.addEventListener("touchstart", (e) => {
     touchStartTime = Date.now();
     touchStartY = e.touches[0].clientY;
   });
-  
-  document.addEventListener('touchend', (e) => {
+
+  document.addEventListener("touchend", (e) => {
     const touchEndTime = Date.now();
     const touchEndY = e.changedTouches[0].clientY;
     const touchDuration = touchEndTime - touchStartTime;
     const touchDistance = Math.abs(touchEndY - touchStartY);
-    
-    // Se foi um toque rápido e próximo, pode ser um clique acidental
+
     if (touchDuration < 200 && touchDistance < 10) {
-      // Adicionar feedback visual
-      const target = e.target;
-      if (target.classList.contains('foto-item') || 
-          target.closest('.foto-item') || 
-          target.classList.contains('projeto-item') ||
-          target.closest('.projeto-item')) {
-        target.style.transform = 'scale(0.95)';
+      const target = e.target.closest(".galeria-trigger, .projeto-card");
+
+      if (target) {
+        target.style.transform = "scale(0.98)";
         setTimeout(() => {
-          target.style.transform = '';
+          target.style.transform = "";
         }, 150);
       }
     }
   });
 }
 
-// === 7. Otimizações de performance ===
+const lazyImages = document.querySelectorAll("img[src]");
 
-// Lazy loading para imagens
-const lazyImages = document.querySelectorAll('img[src]');
-const imageObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const img = entry.target;
-      img.style.opacity = '1';
-      imageObserver.unobserve(img);
-    }
+if ("IntersectionObserver" in window) {
+  const imageObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.style.opacity = "1";
+        imageObserver.unobserve(img);
+      }
+    });
   });
-});
 
-lazyImages.forEach(img => {
-  img.style.opacity = '0';
-  img.style.transition = 'opacity 0.3s ease';
-  imageObserver.observe(img);
-});
+  lazyImages.forEach((img) => {
+    img.style.opacity = "0";
+    img.style.transition = "opacity 0.3s ease";
+    imageObserver.observe(img);
+  });
+} else {
+  lazyImages.forEach((img) => {
+    img.style.opacity = "1";
+  });
+}
 
-// === 8. Melhorias de acessibilidade ===
-
-// Navegação por teclado
-document.addEventListener('keydown', (e) => {
-  // Fechar menu mobile com ESC
-  if (e.key === 'Escape' && nav.classList.contains('active')) {
-    nav.classList.remove('active');
-    mobileMenu.classList.remove('active');
-    document.body.style.overflow = 'auto';
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && nav && mobileMenu && nav.classList.contains("active")) {
+    nav.classList.remove("active");
+    mobileMenu.classList.remove("active");
+    document.body.style.overflow = "auto";
   }
 });
 
-// Melhorar foco para navegação por teclado
-document.querySelectorAll('.nav a, .cta-button, .submit-button, .foto-item').forEach(element => {
-  element.addEventListener('focus', () => {
-    element.style.outline = '2px solid #843E00';
-    element.style.outlineOffset = '2px';
-  });
-  
-  element.addEventListener('blur', () => {
-    element.style.outline = '';
-    element.style.outlineOffset = '';
-  });
-});
-
-// === 9. Detectar orientação do dispositivo ===
-window.addEventListener('orientationchange', () => {
-  // Aguardar a mudança de orientação
+window.addEventListener("orientationchange", () => {
   setTimeout(() => {
-    // Recalcular posições se necessário
-    if (nav.classList.contains('active')) {
-      nav.classList.remove('active');
-      mobileMenu.classList.remove('active');
-      document.body.style.overflow = 'auto';
+    if (nav && mobileMenu && nav.classList.contains("active")) {
+      nav.classList.remove("active");
+      mobileMenu.classList.remove("active");
+      document.body.style.overflow = "auto";
     }
   }, 100);
 });
 
-// === 10. Melhorar performance de scroll ===
 let ticking = false;
 
 function updateHeaderOnScroll() {
-  const header = document.querySelector('.header');
+  const header = document.querySelector(".header");
+
+  if (!header) return;
+
   if (window.scrollY > 100) {
-    header.classList.add('scrolled');
+    header.classList.add("scrolled");
   } else {
-    header.classList.remove('scrolled');
+    header.classList.remove("scrolled");
   }
+
   ticking = false;
 }
 
-window.addEventListener('scroll', () => {
+window.addEventListener("scroll", () => {
   if (!ticking) {
     requestAnimationFrame(updateHeaderOnScroll);
     ticking = true;
   }
 });
 
-// === 11. Carrossel de Projetos ===
-class Carousel {
-  constructor() {
-    this.track = document.getElementById('carouselTrack');
-    this.prevBtn = document.getElementById('prevBtn');
-    this.nextBtn = document.getElementById('nextBtn');
-    this.indicatorsContainer = document.getElementById('carouselIndicators');
-    this.items = document.querySelectorAll('.carousel-track .projeto-item');
-    this.currentIndex = 0;
-    this.totalItems = this.items.length;
-    this.isTransitioning = false;
-    this.autoPlayInterval = null;
-    this.autoPlayDelay = 5000; // 5 segundos
-    
-    this.init();
-  }
-  
-  init() {
-    if (this.totalItems === 0) return;
-    
-    this.createIndicators();
-    this.bindEvents();
-    this.updateCarousel();
-    this.startAutoPlay();
-  }
-  
-  createIndicators() {
-    this.indicatorsContainer.innerHTML = '';
-    
-    for (let i = 0; i < this.totalItems; i++) {
-      const indicator = document.createElement('div');
-      indicator.className = 'carousel-indicator';
-      if (i === 0) indicator.classList.add('active');
-      
-      indicator.addEventListener('click', () => {
-        if (!this.isTransitioning) {
-          this.goToSlide(i);
-        }
+const scrollIndicator = document.querySelector(".hero-scroll");
+
+if (scrollIndicator) {
+  scrollIndicator.addEventListener("click", () => {
+    const sobreSection = document.querySelector("#sobre");
+
+    if (sobreSection) {
+      sobreSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
-      
-      this.indicatorsContainer.appendChild(indicator);
     }
-  }
-  
-  bindEvents() {
-    this.prevBtn.addEventListener('click', () => {
-      if (!this.isTransitioning) {
-        this.prevSlide();
-      }
-    });
-    
-    this.nextBtn.addEventListener('click', () => {
-      if (!this.isTransitioning) {
-        this.nextSlide();
-      }
-    });
-    
-    // Navegação por teclado
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        if (!this.isTransitioning) {
-          this.prevSlide();
-        }
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        if (!this.isTransitioning) {
-          this.nextSlide();
-        }
-      }
-    });
-    
-    // Pausar autoplay no hover
-    this.track.addEventListener('mouseenter', () => {
-      this.stopAutoPlay();
-    });
-    
-    this.track.addEventListener('mouseleave', () => {
-      this.startAutoPlay();
-    });
-    
-    // Touch/swipe support
-    this.addTouchSupport();
-  }
-  
-  addTouchSupport() {
-    let startX = 0;
-    let startY = 0;
-    let endX = 0;
-    let endY = 0;
-    let isDragging = false;
-    
-    this.track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      isDragging = true;
-      this.stopAutoPlay();
-    });
-    
-    this.track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-    });
-    
-    this.track.addEventListener('touchend', (e) => {
-      if (!isDragging) return;
-      
-      endX = e.changedTouches[0].clientX;
-      endY = e.changedTouches[0].clientY;
-      
-      const deltaX = startX - endX;
-      const deltaY = startY - endY;
-      
-      // Verificar se é um swipe horizontal (não vertical)
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        if (deltaX > 0 && !this.isTransitioning) {
-          this.nextSlide();
-        } else if (deltaX < 0 && !this.isTransitioning) {
-          this.prevSlide();
-        }
-      }
-      
-      isDragging = false;
-      this.startAutoPlay();
-    });
-  }
-  
-  nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.totalItems;
-    this.updateCarousel();
-  }
-  
-  prevSlide() {
-    this.currentIndex = (this.currentIndex - 1 + this.totalItems) % this.totalItems;
-    this.updateCarousel();
-  }
-  
-  goToSlide(index) {
-    this.currentIndex = index;
-    this.updateCarousel();
-  }
-  
-  updateCarousel() {
-    if (this.isTransitioning) return;
-    
-    this.isTransitioning = true;
-    
-    // Atualizar posição do track
-    const translateX = -this.currentIndex * 100;
-    this.track.style.transform = `translateX(${translateX}%)`;
-    
-    // Atualizar indicadores
-    const indicators = this.indicatorsContainer.querySelectorAll('.carousel-indicator');
-    indicators.forEach((indicator, index) => {
-      indicator.classList.toggle('active', index === this.currentIndex);
-    });
-    
-    // Atualizar botões
-    this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
-    this.nextBtn.style.opacity = this.currentIndex === this.totalItems - 1 ? '0.5' : '1';
-    
-    // Resetar transição após animação
-    setTimeout(() => {
-      this.isTransitioning = false;
-    }, 500);
-  }
-  
-  startAutoPlay() {
-    this.stopAutoPlay();
-    this.autoPlayInterval = setInterval(() => {
-      this.nextSlide();
-    }, this.autoPlayDelay);
-  }
-  
-  stopAutoPlay() {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
-      this.autoPlayInterval = null;
-    }
-  }
+  });
 }
 
-// Inicializar carrossel quando o DOM estiver carregado
-document.addEventListener('DOMContentLoaded', () => {
-  new Carousel();
-});
+function animateNumbers() {
+  const statNumbers = document.querySelectorAll(".stat-number");
 
-// === 12. Hero Section Scroll Indicator ===
-document.addEventListener('DOMContentLoaded', () => {
-  const scrollIndicator = document.querySelector('.hero-scroll');
-  
-  if (scrollIndicator) {
-    scrollIndicator.addEventListener('click', () => {
-      const sobreSection = document.querySelector('#sobre');
-      if (sobreSection) {
-        sobreSection.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+  statNumbers.forEach((stat) => {
+    const target = parseInt(stat.textContent.replace(/\D/g, ""), 10);
+    const suffix = stat.textContent.replace(/\d/g, "");
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+      current += increment;
+
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
       }
-    });
-  }
-  
-  // Animar números das estatísticas
-  const animateNumbers = () => {
-    const statNumbers = document.querySelectorAll('.stat-number');
-    
-    statNumbers.forEach(stat => {
-      const target = parseInt(stat.textContent.replace(/\D/g, ''));
-      const suffix = stat.textContent.replace(/\d/g, '');
-      let current = 0;
-      const increment = target / 50;
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-          current = target;
-          clearInterval(timer);
-        }
-        stat.textContent = Math.floor(current) + suffix;
-      }, 30);
-    });
-  };
-  
-  // Observar quando a hero section está visível
+
+      stat.textContent = Math.floor(current) + suffix;
+    }, 30);
+  });
+}
+
+const heroSection = document.querySelector(".hero");
+
+if (heroSection && "IntersectionObserver" in window) {
   const heroObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         setTimeout(animateNumbers, 1000);
         heroObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
-  
-  const heroSection = document.querySelector('.hero');
-  if (heroSection) {
-    heroObserver.observe(heroSection);
-  }
-});
+
+  heroObserver.observe(heroSection);
+}
